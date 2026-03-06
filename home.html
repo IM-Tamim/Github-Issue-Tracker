@@ -37,7 +37,8 @@
       }
     </style>
   </head>
-  <body>
+  <body class="bg-base-200">
+    <!-- Navbar -->
     <div
       class="navbar bg-base-100 shadow-sm px-4 sm:px-6 md:px-10 flex flex-col sm:flex-row sm:justify-between gap-3 py-3"
     >
@@ -60,6 +61,41 @@
         <button class="search_btn btn btn-primary px-6 sm:px-4">Search</button>
       </div>
     </div>
+
+    <main class="container py-12">
+      <section class="max-w-9/12 mx-auto">
+        <div class="flex gap-2 bg-base-100 p-6 rounded-lg">
+          <button id="all-btn" class="btn btn-primary md:w-30">All</button>
+          <button id="open-btn" class="btn btn-primary md:w-30">Open</button>
+          <button id="close-btn" class="btn btn-primary md:w-30">Close</button>
+        </div>
+        <div class="flex justify-between bg-base-100 p-6 mt-3 rounded-lg items-center flex-col md:flex-row">
+          <div class="flex gap-2 items-center">
+            <div
+              class="bg-purple-100 p-2 rounded-full w-10 h-10 flex items-center justify-center"
+            >
+              <img src="./assets/Aperture.png" alt="" class="w-5 h-5" />
+            </div>
+            <div>
+              <h2 class="text-lg font-bold">
+                <span id="all-count">50</span> Issues
+              </h2>
+              <p>Track and manage your project issues</p>
+            </div>
+          </div>
+          <div class="flex gap-3 pt-3">
+            <div class="flex gap-1 items-center">
+              <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+              <p>Open</p>
+            </div>
+            <div class="flex gap-1 items-center">
+              <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+              <p>Closed</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
     <script src="./script.js"></script>
   </body>
 </html>
