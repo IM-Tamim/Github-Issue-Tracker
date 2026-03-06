@@ -13,7 +13,7 @@ const modalLabels = document.getElementById('modalLabels');
 const modalDescription = document.getElementById('modalDescription');
 const modalAssignee = document.getElementById('modalAssignee');
 const modalPriority = document.getElementById('modalPriority');
-
+const loadingSpinner = document.getElementById('loading-spinner');
 
 let allCards = [];
 let openCards = [];
@@ -67,7 +67,6 @@ function displayCards(data){
     });
 }
 buttonContainer.addEventListener('click', function(event) {
-    console.log(event.target)
     if(event.target.tagName === 'BUTTON') {
         allBtn.classList.remove('btn-primary');
         openBtn.classList.remove('btn-primary');
@@ -82,7 +81,7 @@ buttonContainer.addEventListener('click', function(event) {
 
         const buttonText = event.target.innerText.toLowerCase();
         cardContainer.innerHTML = '';
-        
+
         if(buttonText === 'all') {
             displayCards(allCards);
             allCount.textContent = allCards.length;
@@ -117,5 +116,13 @@ async function openCardModal(id){
     modalLabels.innerHTML = card.labels.map(label => 
        `<span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">${label}</span>`
     ).join('');
+}
+function spinner(status){
+    if(status){
+        loadingSpinner.classList.remove('hidden')
+        cardContainer.innerHTML=''
+    }else{
+        loadingSpinner.classList.add('hidden')
+    }
 }
 loadAllCards()
