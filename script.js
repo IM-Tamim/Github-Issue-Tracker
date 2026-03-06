@@ -3,11 +3,20 @@ const buttonContainer = document.getElementById('button_container');
 const allBtn = document.getElementById('all-btn');
 const openBtn = document.getElementById('open-btn');
 const closeBtn = document.getElementById('close-btn');
+const allCount = document.getElementById('all-count');
+
+let allCards = [];
+let openCards = [];
+let closedCards = [];
 
 async function loadAllCards() {
     const res = await fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues');
     const data = await res.json();
     displayCards(data.data);
+    allCards = data.data;
+    openCards = allCards.filter(issue => issue.status === 'open');
+    closedCards = allCards.filter(issue => issue.status === 'closed');
+    allCount.textContent = allCards.length;
 }
 function displayCards(data){
     data.forEach(data => {
@@ -47,19 +56,6 @@ function displayCards(data){
         cardContainer.appendChild(card);
     });
 }
-async function selectCategory(btn){
-    const allBtn = document.querySelectorAll("#button_container button");
-    allBtn.forEach(Btn =>{
-        Btn.classList.remove('btn-primary');
-        Btn.classList.add('btn-outline');
-    })
-    btn.classList.remove('btn-outline');
-    btn.classList.add('btn-primary');
-
-    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`);
-    const data = await res.json();
-    displayCards(data.data);
-}
 buttonContainer.addEventListener('click', function(event) {
     console.log(event.target)
     if(event.target.tagName === 'BUTTON') {
@@ -73,6 +69,20 @@ buttonContainer.addEventListener('click', function(event) {
         
         event.target.classList.remove('btn-outline');
         event.target.classList.add('btn-primary');
+
+        const buttonText = event.target.innerText.toLowerCase();
+        cardContainer.innerHTML = '';
+        
+        if(buttonText === 'all') {
+            displayCards(allCards);
+            allCount.textContent = allCards.length;
+        } else if(buttonText === 'open') {
+            displayCards(openCards);
+            allCount.textContent = openCards.length;
+        } else if(buttonText === 'close') {
+            displayCards(closedCards);
+            allCount.textContent = closedCards.length;
+        }
     }
 });
 loadAllCards()
