@@ -1,9 +1,16 @@
 const cardContainer = document.getElementById('card-container')
+const buttonContainer = document.getElementById('button_container');
+const allBtn = document.getElementById('all-btn');
+const openBtn = document.getElementById('open-btn');
+const closeBtn = document.getElementById('close-btn');
 
-async function loadCards() {
+async function loadAllCards() {
     const res = await fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues');
-    const data = await res.json()
-    data.data.forEach(data => {
+    const data = await res.json();
+    displayCards(data.data);
+}
+function displayCards(data){
+    data.forEach(data => {
         const card = document.createElement('div');
         card.innerHTML =`
         <div class="border-2 border-gray-200 border-t-4 rounded-lg p-4 shadow-xl h-full flex flex-col ${data.status === 'open' ? 'border-t-green-500' : 'border-t-purple-500'}">
@@ -40,4 +47,32 @@ async function loadCards() {
         cardContainer.appendChild(card);
     });
 }
-loadCards()
+async function selectCategory(btn){
+    const allBtn = document.querySelectorAll("#button_container button");
+    allBtn.forEach(Btn =>{
+        Btn.classList.remove('btn-primary');
+        Btn.classList.add('btn-outline');
+    })
+    btn.classList.remove('btn-outline');
+    btn.classList.add('btn-primary');
+
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`);
+    const data = await res.json();
+    displayCards(data.data);
+}
+buttonContainer.addEventListener('click', function(event) {
+    console.log(event.target)
+    if(event.target.tagName === 'BUTTON') {
+        allBtn.classList.remove('btn-primary');
+        openBtn.classList.remove('btn-primary');
+        closeBtn.classList.remove('btn-primary');
+
+        allBtn.classList.add('btn-outline');
+        openBtn.classList.add('btn-outline');
+        closeBtn.classList.add('btn-outline');
+        
+        event.target.classList.remove('btn-outline');
+        event.target.classList.add('btn-primary');
+    }
+});
+loadAllCards()
