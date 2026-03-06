@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Github Issue Tracker</title>
     <link
       rel="shortcut icon"
@@ -16,7 +16,6 @@
       type="text/css"
     />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    />
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -40,7 +39,44 @@
   </head>
   <body>
 
-    
+    <section class="min-h-screen max-w-md bg-white mx-auto">
+      <div class="form pt-8">
+        <div
+          class="card bg-base-100 w-full max-w-sm shrink-0 shadow mx-auto rounded-2xl"
+        >
+            <img src="./assets/github-logo.png" alt="" class="max-w-20 flex justify-center mx-auto my-7">
+            <h2 class="font-bold text-2xl  text-center">GitHub Issues Tracker</h2>
+            <p class="text-[#64748B] text-center">Sign in to manage your issues</p>
+          <div class="card-body">
+            <fieldset class="fieldset">
+              <label class="label text-neutral font-bold">User Name</label>
+              <input
+                type="text"
+                id="user_name"
+                class="input rounded-xl bg-base-200 my-2"
+                placeholder="Enter Username"
+              />
+              <label class="label text-neutral font-bold">Password</label>
+              <input
+                type="password"
+                id="input_password"
+                class="input rounded-xl bg-base-200"
+                placeholder="Enter Password"
+              />
+              <button id="login-btn" class="btn btn-primary mt-4 rounded-xl">
+                Sign In
+              </button>
+            </fieldset>
+          </div>
+          <div class="divider w-10/12 mx-auto">OR</div>
+          <p class="text-[#64748B] text-center">Demo Credentials:</p>
+          <div class="text-center space-y-0 p-3 bg-gray-50 m-3 rounded-xl">
+            <p>Username: admin</p>
+            <p>Password: admin123</p>
+          </div>
+        </div>
+      </div>
+    </section>
     <script src="./script.js"></script>
   </body>
 </html>
