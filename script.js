@@ -4,6 +4,16 @@ const allBtn = document.getElementById('all-btn');
 const openBtn = document.getElementById('open-btn');
 const closeBtn = document.getElementById('close-btn');
 const allCount = document.getElementById('all-count');
+const cardModal = document.getElementById('card_modal')
+const modalTitle = document.getElementById('modalTitle');
+const modalStatus = document.getElementById('modalStatus');
+const modalAuthor = document.getElementById('modalAuthor');
+const modalCreated = document.getElementById('modalCreated');
+const modalLabels = document.getElementById('modalLabels');
+const modalDescription = document.getElementById('modalDescription');
+const modalAssignee = document.getElementById('modalAssignee');
+const modalPriority = document.getElementById('modalPriority');
+
 
 let allCards = [];
 let openCards = [];
@@ -22,7 +32,7 @@ function displayCards(data){
     data.forEach(data => {
         const card = document.createElement('div');
         card.innerHTML =`
-        <div class="border-2 border-gray-200 border-t-4 rounded-lg p-4 shadow-xl h-full flex flex-col ${data.status === 'open' ? 'border-t-green-500' : 'border-t-purple-500'}">
+        <div onclick="openCardModal(${data.id})" class="border-2 border-gray-200 border-t-4 rounded-lg p-4 shadow-xl h-full flex flex-col ${data.status === 'open' ? 'border-t-green-500' : 'border-t-purple-500'}">
           <div class="flex justify-between">
               <span class="text-gray-400">
                 <img src="./assets/${data.status === 'open' ? 'Open-Status' : 'Closed-Status'}.png" alt="">
@@ -47,7 +57,7 @@ function displayCards(data){
               <p>assignee: ${data.assignee}</p>
             </div>
             <div class="text-right space-y-1">
-              <p>Credited: ${new Date(data.createdAt).toLocaleDateString()}</p>
+              <p>Created: ${new Date(data.createdAt).toLocaleDateString()}</p>
               <p>Updated: ${new Date(data.updatedAt).toLocaleDateString()}</p>
             </div>
           </div>
@@ -85,4 +95,27 @@ buttonContainer.addEventListener('click', function(event) {
         }
     }
 });
+async function openCardModal(id){
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`);
+    const obj = await res.json();
+    const card = obj.data;
+    cardModal.showModal();
+
+    modalTitle.textContent = card.title;
+    modalStatus.textContent = card.status;
+    modalStatus.className = `rounded-full py-1 px-3 text-xs font-medium ${
+        card.status === 'open' ? 'bg-green-100 text-green-600' : 'bg-purple-100 text-purple-600'
+    }`;
+    modalAuthor.textContent = card.author;
+    modalCreated.textContent = new Date(card.createdAt).toLocaleDateString();
+    modalDescription.textContent = card.description;
+    modalAssignee.textContent = card.assignee;
+    modalPriority.innerHTML = `<span class="text-xs font-medium px-6 py-1 rounded-full uppercase ${
+    card.priority === 'high' ? 'text-white bg-red-400' : 
+    card.priority === 'medium' ? 'text-white bg-yellow-400' : 'text-white bg-gray-400'}">${card.priority}</span>`;
+    
+    modalLabels.innerHTML = card.labels.map(label => 
+       `<span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">${label}</span>`
+    ).join('');
+}
 loadAllCards()
