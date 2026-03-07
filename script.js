@@ -13,7 +13,7 @@ const modalLabels = document.getElementById('modalLabels');
 const modalDescription = document.getElementById('modalDescription');
 const modalAssignee = document.getElementById('modalAssignee');
 const modalPriority = document.getElementById('modalPriority');
-const loadingSpinner = document.getElementById('loading-spinner');
+const loadingSpinner = document.getElementById('loadingSpinner');
 const searchInput = document.getElementById('input_text');
 const searchBtn = document.querySelector('.search_btn');
 
@@ -22,8 +22,10 @@ let openCards = [];
 let closedCards = [];
 
 async function loadAllCards() {
+    spinner(true)
     const res = await fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues');
     const data = await res.json();
+    spinner(false)
     displayCards(data.data);
     allCards = data.data;
     openCards = allCards.filter(issue => issue.status === 'open');
@@ -145,12 +147,14 @@ searchBtn.addEventListener('click', function(){
         allBtn.classList.add('btn-primary');
         return;
     }
+    spinner(true);
     fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`)
         .then(response => response.json())
         .then(data => {
             const searchResults = data.data.filter(issue => 
                 issue.title.toLowerCase().includes(searchText)
             );
+            spinner(false);
             displayCards(searchResults);
             allCount.textContent = searchResults.length;
         });
